@@ -1,0 +1,17 @@
+FROM fedora:29
+
+RUN dnf install -y \
+    jq \
+    curl \
+    unzip \
+    wget
+
+RUN echo "while true; do sleep 30; done" > /tmp/run.sh \
+    && chmod +x /tmp/run.sh
+
+RUN wget https://releases.hashicorp.com/vault/1.1.0/vault_1.1.0_linux_amd64.zip \
+    && unzip vault_1.1.0_linux_amd64.zip \
+    && rm -f vault_1.1.0_linux_amd64.zip \
+    && mv vault /bin/vault
+
+ENTRYPOINT ["/tmp/run.sh"]
